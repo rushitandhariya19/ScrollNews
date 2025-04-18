@@ -1,16 +1,16 @@
 import React from 'react'
 import Newsitems from './Newsitems'
 
-// export default function News(props) {
-    const News = (props)=>{
-    let {category,country,setProgress,query,setNewsquery,countryFull} = props;
-
-    
-    //de-structring of object
+function News({ category, country, setProgress, query, setNewsquery, countryFull }) {
   return (
-    <>
-        <Newsitems setProgress={setProgress} category={category} country={country} countryFull={countryFull} query={query} setNewsquery={setNewsquery}/>
-    </>
-  )
+    <Newsitems 
+    setProgress={setProgress} 
+    category={category} 
+    country={country} 
+    countryFull={countryFull} 
+    query={query} 
+    setNewsquery={setNewsquery} />
+  );
 }
+
 export default News;
