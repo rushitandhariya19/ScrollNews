@@ -18,12 +18,22 @@ export default function Newsitems({ category, country, setProgress, query, count
       const response = await fetch(url);
       const data = await response.json();
 
-      setArticles((prev) => pageToFetch === 1 ? data.articles : [...prev, ...data.articles]);
-      setTotalResults(data.totalResults);
+      if (data?.articles?.length) {
+        setArticles((prev) =>
+          pageToFetch === 1 ? data.articles : [...prev, ...data.articles]
+        );
+        setTotalResults(data.totalResults || 0);
+      } else {
+        // No articles or bad response
+        setArticles([]);
+        setTotalResults(0);
+      }
+
       setPage(pageToFetch);
       setProgress(100);
     } catch (error) {
       console.error('Error fetching news:', error);
+      setProgress(100);
     }
   }, [category, country, query, setProgress]);
 
@@ -31,6 +41,15 @@ export default function Newsitems({ category, country, setProgress, query, count
     setPage(1);
     fetchNews(1);
   }, [category, country, query, fetchNews]);
+
+  // Optional: Show message when no results
+  if (articles.length === 0 && totalResults === 0) {
+    return (
+      <div className="container text-center my-5">
+        <h4>No news articles found.</h4>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
